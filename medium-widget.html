@@ -1,464 +1,989 @@
 <!DOCTYPE html>
+
+
+
 <html lang="en">
+
   <head>
+
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Ripe Medium Widget</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <link
+
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+
       rel="stylesheet"
+
     />
+
     <style>
+
       :root {
+
         --bg: #f8f7f4;
+
         --card: #ffffff;
-        --border: #f1e6c8;
-        --accent: #f2c03a;
-        --accent-hover: #f0b119;
+
+        --border-color: #f1e6c8;
+
+        --input-bg: #fffcf5;
+
+        --input-border: #fceeb5;
+
+        --primary: #ffc42e; /* Ripe Yellow */
+
+        --primary-hover: #f0b119;
+
         --text: #1f1f1f;
-        --muted: #6b6b6b;
-        --shadow: 0 18px 60px rgba(0, 0, 0, 0.06);
-        --radius-xl: 24px;
-        --radius: 14px;
-        --gap: 16px;
+
+        --text-secondary: #6b6b6b;
+
+        --details-bg: #f5f6fa;
+
+        --radius: 16px;
+
+        --radius-sm: 8px;
+
+        --shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+
       }
 
       * {
+
         box-sizing: border-box;
+
       }
 
       body {
+
         margin: 0;
+
         min-height: 100vh;
+
         display: flex;
+
         align-items: center;
+
         justify-content: center;
-        background: transparent; /* Let iframe bg show or body bg */
-        font-family: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+        background: transparent;
+
+        font-family: "Poppins", system-ui, -apple-system, sans-serif;
+
         color: var(--text);
-        padding: 0;
-        overflow: hidden; /* Prevent scrollbars in iframe */
+
+        padding: 12px;
+
+        overflow: hidden;
+
       }
 
       .widget {
-        width: 700px;
-        height: 350px;
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-xl);
-        box-shadow: var(--shadow);
-        padding: 24px;
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* Two equal columns */
-        gap: 24px;
+
+        width: min(720px, calc(100vw - 12px));
+
+        max-width: 100%;
+
+        max-height: calc(100vh - 12px);
+
         overflow: hidden;
-      }
 
-      /* --- Column 1: Inputs --- */
-      .col-input {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-      }
+        background: var(--card);
 
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-weight: 700;
-        font-size: 20px;
-        color: var(--text);
-        margin-bottom: 4px;
-      }
+        border-radius: 22px;
 
-      .brand img {
-        width: 32px;
-        height: auto;
-      }
+        box-shadow: var(--shadow);
 
-      .tile {
-        background: #fffbf2;
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
         padding: 14px;
+
         display: flex;
+
         flex-direction: column;
-        gap: 10px;
+
+        gap: 14px;
+
       }
 
-      .row {
+      /* Top Section: Split Columns */
+
+      .widget-body {
+
         display: flex;
+
+        gap: 16px;
+
+      }
+
+      /* Left Column: Inputs */
+
+      .col-left {
+
+        flex: 1;
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 6px;
+
+      }
+
+      .logo {
+
+        width: 80px;
+
+        margin-bottom: 8px;
+
+        display: block;
+
+      }
+
+      .input-box {
+
+        display: flex;
+
         align-items: center;
+
         justify-content: space-between;
-        gap: 8px;
+
+        background: var(--input-bg);
+
+        border: 2px solid var(--input-border);
+
+        border-radius: var(--radius);
+
+        padding: 10px 12px;
+
+        transition: border-color 0.2s;
+
+        height: 60px;
+
       }
 
-      .label {
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-      }
+      .input-box:focus-within {
 
-      .amount-row {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
+        border-color: var(--primary);
 
-      .input-field {
-        width: 100%;
-        text-align: right;
-        border: none;
-        background: transparent;
-        font-family: "Poppins", sans-serif;
-        font-weight: 700;
-        font-size: 22px;
-        color: var(--text);
-        outline: none;
-        padding: 0;
-      }
-
-      .input-field::placeholder {
-        color: #ccc;
-      }
-
-      .suffix {
-        font-weight: 700;
-        font-size: 16px;
-        color: var(--text);
       }
 
       /* Custom Select */
-      .select {
+
+      .currency-select {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 8px;
+
+        cursor: pointer;
+
+        padding: 4px 8px 4px 0;
+
+        border-radius: 8px;
+
+        transition: background 0.1s;
+
         position: relative;
-        min-width: 110px;
+
       }
 
-      .select-trigger {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: #fff;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 6px 10px;
-        cursor: pointer;
-        font-family: inherit;
-        font-weight: 600;
-        font-size: 14px;
-        color: var(--text);
-        transition: border-color 0.2s;
+      
+
+      .currency-select:hover {
+
+        background: rgba(0,0,0,0.03);
+
       }
 
-      .select-trigger:hover {
-        border-color: #e0d0a0;
-      }
+      .currency-icon {
 
-      .select-icon {
-        width: 20px;
-        height: 20px;
+        width: 32px;
+
+        height: 32px;
+
         border-radius: 50%;
+
         object-fit: cover;
+
       }
 
-      .select-caret {
+      .currency-code {
+
+        font-weight: 700;
+
+        font-size: 18px;
+
+      }
+
+      .dropdown-arrow {
+
+        width: 0; 
+
+        height: 0; 
+
+        border-left: 5px solid transparent;
+
+        border-right: 5px solid transparent;
+
+        border-top: 6px solid #aaa;
+
+        margin-left: 4px;
+
+      }
+
+      /* Input Fields */
+
+      .amount-input {
+
+        text-align: right;
+
+        border: none;
+
+        background: transparent;
+
+        font-family: inherit;
+
+        font-size: 18px;
+
+        font-weight: 700;
+
+        color: var(--text);
+
+        outline: none;
+
+        width: 100%;
+
+        margin-left: 10px;
+
+      }
+
+      
+
+      .amount-input::placeholder {
+
+        color: #ddd;
+
+      }
+
+      .amount-display {
+
+        text-align: right;
+
+        font-size: 18px;
+
+        font-weight: 700;
+
+        color: var(--text);
+
         margin-left: auto;
-        border-left: 4px solid transparent;
-        border-right: 4px solid transparent;
-        border-top: 5px solid var(--muted);
-        opacity: 0.7;
+
       }
 
-      .select-options {
-        position: absolute;
-        z-index: 10;
-        top: calc(100% + 4px);
-        left: 0;
-        right: 0;
-        background: #fff;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        list-style: none;
-        margin: 0;
-        padding: 4px;
-        display: none;
-      }
+      /* Pills */
 
-      .select.open .select-options {
-        display: block;
-      }
+      .pills-row {
 
-      .select-option {
         display: flex;
+
+        gap: 6px;
+
+        margin: 2px 0;
+
+        justify-content: center;
+
         align-items: center;
-        gap: 8px;
-        padding: 8px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: 500;
-      }
 
-      .select-option:hover {
-        background: #fff8e0;
-      }
-
-      .pills {
-        display: flex;
-        gap: 8px;
-        margin-top: 4px;
       }
 
       .pill {
-        flex: 1;
-        border: 1px solid #f0e0b0;
-        background: #fff;
-        border-radius: 8px;
-        padding: 6px;
-        font-family: inherit;
-        font-weight: 600;
+
+        background: #f3f4f6;
+
+        border: 1px solid #e5e7eb;
+
+        padding: 6px 12px;
+
+        border-radius: 6px;
+
         font-size: 12px;
-        color: var(--text);
+
+        font-weight: 600;
+
+        color: var(--text-secondary);
+
         cursor: pointer;
-        transition: all 0.15s;
+
+        transition: all 0.2s;
+
       }
 
       .pill:hover {
-        background: #fff8e0;
-        border-color: var(--accent);
-      }
 
-      /* --- Column 2: Output/Summary --- */
-      .col-output {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        height: 100%;
-      }
+        background: #e5e7eb;
 
-      .summary-box {
-        background: #fffaf0;
-        border: 1px dashed var(--border);
-        border-radius: var(--radius);
-        padding: 16px;
-        margin-bottom: 12px;
-      }
-
-      .summary-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 4px;
-      }
-
-      .summary-title {
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--muted);
-        text-transform: uppercase;
-      }
-
-      .transparent-badge {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        background: #e8f5e9;
-        color: #1a8f2f;
-        padding: 4px 8px;
-        border-radius: 100px;
-        font-size: 11px;
-        font-weight: 700;
-      }
-
-      .big-amount {
-        font-size: 26px;
-        font-weight: 800;
         color: var(--text);
-        margin: 4px 0;
+
       }
 
-      .breakdown {
+      /* Swap Icon Area */
+
+      .swap-area {
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+
+        height: 24px;
+
+        color: var(--primary);
+
+        font-size: 20px;
+
+      }
+
+      
+
+      .swap-icon {
+
+        color: var(--primary);
+
+        font-weight: bold;
+
+      }
+
+      /* Right Column: Details */
+
+      .col-right {
+
         flex: 1;
+
+        background: var(--details-bg);
+
+        border-radius: var(--radius);
+
+        padding: 16px;
+
         display: flex;
+
         flex-direction: column;
-        gap: 8px;
-        padding: 0 4px;
-        margin-bottom: 12px;
+
+        justify-content: center;
+
+        gap: 12px;
+
       }
 
-      .line-item {
+      .detail-row {
+
         display: flex;
+
         justify-content: space-between;
+
+        align-items: center;
+
         font-size: 13px;
-        color: var(--muted);
+
+        color: var(--text-secondary);
+
         font-weight: 500;
+
       }
 
-      .line-item.total {
-        margin-top: auto;
-        padding-top: 8px;
-        border-top: 1px solid #f0f0f0;
+      .detail-row.total {
+
+        margin-top: 6px;
+
+        padding-top: 12px;
+
+        border-top: 1px solid rgba(0,0,0,0.1);
+
         color: var(--text);
-        font-weight: 700;
-        font-size: 14px;
-      }
 
-      .val-negative { color: #d32f2f; }
-      .val-positive { color: #2e7d32; }
-
-      .cta {
-        width: 100%;
-        background: var(--accent);
-        border: none;
-        padding: 14px;
-        border-radius: 12px;
-        font-family: inherit;
         font-weight: 700;
+
         font-size: 15px;
+
+      }
+
+      .val {
+
+        font-weight: 600;
+
+        color: var(--text);
+
+      }
+
+      
+
+      .val-total {
+
+        font-weight: 800;
+
+      }
+
+      /* Footer Button */
+
+      .btn-convert {
+
+        width: 100%;
+
+        background: var(--primary);
+
+        border: none;
+
+        padding: 12px;
+
+        border-radius: 40px; /* Full pill shape for button */
+
+        font-family: inherit;
+
+        font-size: 17px;
+
+        font-weight: 700;
+
         color: #000;
+
         cursor: pointer;
-        transition: transform 0.1s, background 0.1s;
-        box-shadow: 0 4px 12px rgba(242, 192, 58, 0.2);
+
+        transition: background 0.2s, transform 0.1s;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 8px;
+
       }
 
-      .cta:hover {
-        background: var(--accent-hover);
+      .btn-convert:hover {
+
+        background: var(--primary-hover);
+
         transform: translateY(-1px);
+
       }
 
-      .cta:active {
+      
+
+      .btn-convert:active {
+
         transform: translateY(0);
+
       }
 
-      /* Responsive fallback for very small screens (if embedded in mobile view) */
+      
+
+      /* Dropdown Logic (Simple) */
+
+      .select-wrapper {
+
+        position: relative;
+
+      }
+
+      
+
+      .dropdown-menu {
+
+        position: absolute;
+
+        top: 110%;
+
+        left: 0;
+
+        background: #fff;
+
+        border: 1px solid #eee;
+
+        border-radius: 12px;
+
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+
+        width: 160px;
+
+        display: none;
+
+        z-index: 100;
+
+        overflow: hidden;
+
+      }
+
+      
+
+      .select-wrapper.open .dropdown-menu {
+
+        display: block;
+
+      }
+
+      
+
+      .dropdown-item {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 10px;
+
+        padding: 12px;
+
+        cursor: pointer;
+
+        transition: background 0.1s;
+
+      }
+
+      
+
+      .dropdown-item:hover {
+
+        background: #f9f9f9;
+
+      }
+
+      
+
+      .dropdown-item img {
+
+        width: 24px;
+
+        height: 24px;
+
+      }
+
+      
+
+      .dropdown-item span {
+
+        font-weight: 600;
+
+        font-size: 14px;
+
+      }
+
       @media (max-width: 600px) {
-        .widget {
-          height: auto;
-          grid-template-columns: 1fr;
-          width: 100%;
-          padding: 16px;
+
+        .widget-body {
+
+            flex-direction: column;
+
+            gap: 20px;
+
         }
+
+        .widget {
+
+            padding: 16px;
+
+        }
+
       }
+
     </style>
+
   </head>
+
   <body>
+
     <div class="widget">
-      <!-- Left Column: Inputs -->
-      <div class="col-input">
-        <div class="brand">
-          <img src="assets/ripe-logo.png" alt="Ripe Logo" />
-          <span>Ripe</span>
-        </div>
+
+      <!-- Body Section -->
+
+      <div class="widget-body">
+
         
-        <div class="tile">
-          <div class="row">
-            <span class="label">You Send</span>
-            <div class="select" data-select="coin">
-              <button class="select-trigger">
-                <img class="select-icon" src="assets/coin/usdc.png" alt="USDC"/>
-                <span class="select-label">USDC</span>
-                <div class="select-caret"></div>
-              </button>
-              <ul class="select-options">
-                <li class="select-option" data-value="USDC" data-icon="assets/coin/usdc.png">
-                  <img class="select-icon" src="assets/coin/usdc.png" alt="USDC"/>
-                  <span>USDC</span>
-                </li>
-                <li class="select-option" data-value="USDT" data-icon="assets/coin/usdt.png">
-                  <img class="select-icon" src="assets/coin/usdt.png" alt="USDT"/>
-                  <span>USDT</span>
-                </li>
-              </ul>
+
+        <!-- Left Column -->
+
+        <div class="col-left">
+
+          <!-- Logo Place -->
+
+          <div style="font-weight: 800; font-size: 24px; color: #ffc42e; display: flex; align-items: center; gap: 4px;">
+
+             ripe
+
+          </div>
+
+          <!-- Input Box -->
+
+          <div class="input-box">
+
+            <div class="select-wrapper" id="coin-select">
+
+                <div class="currency-select" onclick="toggleDropdown('coin-select')">
+
+                    <img src="assets/coin/usdc.png" alt="USDC" class="currency-icon" id="coin-icon">
+
+                    <span class="currency-code" id="coin-code">USDC</span>
+
+                    <div class="dropdown-arrow"></div>
+
+                </div>
+
+                <div class="dropdown-menu">
+
+                    <div class="dropdown-item" onclick="selectCoin('USDC', 'assets/coin/usdc.png')">
+
+                        <img src="assets/coin/usdc.png" alt="USDC">
+
+                        <span>USDC</span>
+
+                    </div>
+
+                    <div class="dropdown-item" onclick="selectCoin('USDT', 'assets/coin/usdt.png')">
+
+                        <img src="assets/coin/usdt.png" alt="USDT">
+
+                        <span>USDT</span>
+
+                    </div>
+
+                </div>
+
             </div>
-          </div>
-          
-          <div class="amount-row">
-            <input 
-              type="text" 
-              class="input-field" 
-              data-bind="coin-value" 
-              value="1000" 
-              placeholder="0"
-            />
-            <span class="suffix" data-bind="coin-suffix">USDC</span>
+
+            
+
+            <!-- Value Input -->
+
+            <input type="text" class="amount-input" id="amount-input" value="100" placeholder="0">
+
+            <span style="font-weight: 700; margin-left: 4px;" id="coin-suffix">USDC</span>
+
           </div>
 
-          <div class="pills">
-            <button class="pill" data-amount="100">100</button>
-            <button class="pill" data-amount="500">500</button>
-            <button class="pill" data-amount="1000">1k</button>
-            <button class="pill" data-amount="5000">5k</button>
+          <!-- Pills -->
+
+          <div class="pills-row">
+
+            <div class="pill" onclick="setAmount(10)">10 USDC</div>
+
+            <div class="pill" onclick="setAmount(50)">50 USDC</div>
+
+            <div class="pill" onclick="setAmount(100)">100 USDC</div>
+
           </div>
+
+          <!-- Swap Icon -->
+
+          <div class="swap-area">
+
+            <div class="swap-icon">⇄</div>
+
+          </div>
+
+          <!-- Output Box (Read Only) -->
+
+          <div class="input-box">
+
+             <div class="select-wrapper" id="fiat-select">
+
+                <div class="currency-select" onclick="toggleDropdown('fiat-select')">
+
+                    <img src="assets/fiat/usd.png" alt="USD" class="currency-icon" id="fiat-icon">
+
+                    <span class="currency-code" id="fiat-code">USD</span>
+
+                    <div class="dropdown-arrow"></div>
+
+                </div>
+
+                <div class="dropdown-menu">
+
+                    <div class="dropdown-item" onclick="selectFiat('USD', 'assets/fiat/usd.png')">
+
+                        <img src="assets/fiat/usd.png" alt="USD">
+
+                        <span>USD</span>
+
+                    </div>
+
+                    <div class="dropdown-item" onclick="selectFiat('PHP', 'assets/fiat/php.png')">
+
+                        <img src="assets/fiat/php.png" alt="PHP">
+
+                        <span>PHP</span>
+
+                    </div>
+
+                </div>
+
+             </div>
+
+             
+
+             <!-- Value Display -->
+
+             <div class="amount-display" id="net-display">≈ $100.05 USD</div>
+
+          </div>
+
         </div>
 
-        <div class="row" style="padding: 0 4px;">
-          <span class="label" style="color: var(--text)">Recipient Currency</span>
-          <div class="select" data-select="fiat" style="min-width: 140px;">
-            <button class="select-trigger">
-              <img class="select-icon" src="assets/fiat/php.png" alt="PHP"/>
-              <span class="select-label">PHP</span>
-              <div class="select-caret"></div>
-            </button>
-            <ul class="select-options">
-              <li class="select-option" data-value="PHP" data-icon="assets/fiat/php.png" data-symbol="₱">
-                <img class="select-icon" src="assets/fiat/php.png" alt="PHP"/>
-                <span>PHP</span>
-              </li>
-              <li class="select-option" data-value="USD" data-icon="assets/fiat/usd.png" data-symbol="$">
-                <img class="select-icon" src="assets/fiat/usd.png" alt="USD"/>
-                <span>USD</span>
-              </li>
-            </ul>
-          </div>
+        <!-- Right Column -->
+
+        <div class="col-right">
+
+            <div class="detail-row">
+
+                <span>Gross Fiat:</span>
+
+                <span class="val" id="gross-val">$100.20 USD</span>
+
+            </div>
+
+            <div class="detail-row">
+
+                <span>Ripe Fee (0.5%):</span>
+
+                <span class="val" id="ripe-fee-val">$0.03 USD</span>
+
+            </div>
+
+            <div class="detail-row">
+
+                <span>Network Fee:</span>
+
+                <span class="val" id="network-fee-val">$0.12 USD</span>
+
+            </div>
+
+            <div class="detail-row">
+
+                <span>Implied FX Spread:</span>
+
+                <span class="val" id="spread-val">0.25%</span>
+
+            </div>
+
+            
+
+            <div class="detail-row total">
+
+                <span>Net Fiat Received:</span>
+
+                <span class="val val-total" id="net-total-val">$100.05 USD</span>
+
+            </div>
+
         </div>
+
       </div>
 
-      <!-- Right Column: Summary & Breakdown -->
-      <div class="col-output">
-        <div class="summary-box">
-          <div class="summary-header">
-            <span class="summary-title">Recipient Gets</span>
-            <div class="transparent-badge">
-              <span style="font-size: 14px;">✓</span> No Hidden Fees
-            </div>
-          </div>
-          <div class="big-amount" data-bind="net-fiat">₱58,205.00</div>
-        </div>
+      <!-- Footer Button -->
 
-        <div class="breakdown">
-          <div class="line-item">
-            <span>Gross Amount</span>
-            <span data-bind="gross">₱58,500.00</span>
-          </div>
-          <div class="line-item">
-            <span>Ripe Fee (0.5%)</span>
-            <span class="val-negative" data-bind="ripe-fee">- ₱292.50</span>
-          </div>
-          <div class="line-item">
-            <span>Network Fee</span>
-            <span class="val-negative" data-bind="network-fee">- ₱2.50</span>
-          </div>
-           <div class="line-item">
-            <span>FX Spread</span>
-            <span data-bind="fx-spread">0.25%</span>
-          </div>
-          <div class="line-item total">
-            <span>Total Net Received</span>
-            <span class="val-positive" data-bind="net">₱58,205.00</span>
-          </div>
-        </div>
+      <button class="btn-convert">
 
-        <button class="cta">Send Money Now</button>
-      </div>
+        Convert Now 
+
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+
+      </button>
+
     </div>
 
+    <!-- Script assumes FXCalculator is loaded from fx-calculator.js -->
+
     <script src="fx-calculator.js"></script>
-    <script src="medium-widget.js"></script>
+
+    <script>
+
+      // DOM Elements
+
+      const amountInput = document.getElementById('amount-input');
+
+      const coinSuffix = document.getElementById('coin-suffix');
+
+      const netDisplay = document.getElementById('net-display');
+
+      
+
+      const grossVal = document.getElementById('gross-val');
+
+      const ripeFeeVal = document.getElementById('ripe-fee-val');
+
+      const networkFeeVal = document.getElementById('network-fee-val');
+
+      const spreadVal = document.getElementById('spread-val');
+
+      const netTotalVal = document.getElementById('net-total-val');
+
+      
+
+      // State
+
+      let state = {
+
+        amount: "100",
+
+        coin: "USDC",
+
+        fiat: "USD",
+
+        coinSymbol: "USDC"
+
+      };
+
+      // Dropdown Logic
+
+      function toggleDropdown(id) {
+
+        document.querySelectorAll('.select-wrapper').forEach(el => {
+
+            if(el.id !== id) el.classList.remove('open');
+
+        });
+
+        document.getElementById(id).classList.toggle('open');
+
+      }
+
+      window.onclick = function(event) {
+
+        if (!event.target.closest('.currency-select')) {
+
+            document.querySelectorAll('.select-wrapper').forEach(el => el.classList.remove('open'));
+
+        }
+
+      }
+
+      function selectCoin(code, iconSrc) {
+
+        state.coin = code;
+
+        state.coinSymbol = code;
+
+        document.getElementById('coin-code').textContent = code;
+
+        document.getElementById('coin-icon').src = iconSrc;
+
+        coinSuffix.textContent = code;
+
+        
+
+        // Update pills text
+
+        document.querySelectorAll('.pill').forEach(el => {
+
+            const amt = el.textContent.split(' ')[0];
+
+            el.textContent = `${amt} ${code}`;
+
+        });
+
+        
+
+        updateCalc();
+
+      }
+
+      function selectFiat(code, iconSrc) {
+
+        state.fiat = code;
+
+        document.getElementById('fiat-code').textContent = code;
+
+        document.getElementById('fiat-icon').src = iconSrc;
+
+        updateCalc();
+
+      }
+
+      function setAmount(val) {
+
+        amountInput.value = val;
+
+        updateCalc();
+
+      }
+
+      // Calculation Logic
+
+      function updateCalc() {
+
+        const val = amountInput.value;
+
+        const cleanAmount = FXCalculator.validateInput(val);
+
+        
+
+        // Prevent infinite loops if updating input value directly, 
+
+        // but here we just want to ensure clean state
+
+        state.amount = cleanAmount; 
+
+        const res = FXCalculator.calculateConversion(cleanAmount, state.fiat);
+
+        const sym = res.formatted.symbol;
+
+        const fiatCode = state.fiat;
+
+        // Update Bottom Left Input Box
+
+        netDisplay.textContent = `≈ ${sym}${res.formatted.netFiat} ${fiatCode}`;
+
+        // Update Right Panel
+
+        grossVal.textContent = `${sym}${res.formatted.grossFiat} ${fiatCode}`;
+
+        ripeFeeVal.textContent = `${sym}${res.formatted.ripeFee} ${fiatCode}`;
+
+        networkFeeVal.textContent = `${sym}${res.formatted.networkFee} ${fiatCode}`;
+
+        spreadVal.textContent = `${res.formatted.fxSpreadPercent}%`;
+
+        netTotalVal.textContent = `${sym}${res.formatted.netFiat} ${fiatCode}`;
+
+      }
+
+      // Event Listeners
+
+      amountInput.addEventListener('input', (e) => {
+
+        updateCalc();
+
+      });
+
+      // Init
+
+      updateCalc();
+
+      
+
+      // Fallback for missing images in preview
+
+      document.querySelectorAll('img').forEach(img => {
+
+        img.onerror = function() {
+
+            this.style.display = 'none'; // Hide broken image
+
+            // Optionally add a text fallback or colored circle here
+
+        };
+
+      });
+
+    </script>
+
   </body>
+
 </html>

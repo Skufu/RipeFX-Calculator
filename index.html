@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ripe Stablecoin to Fiat Mobile Widget</title>
+    <style>
+      :root {
+        --bg: #0f1116;
+        --surface: #161924;
+        --border: #23283a;
+        --accent: #7dd3fc;
+        --accent-strong: #38bdf8;
+        --text: #e7e9f0;
+        --muted: #9aa1b5;
+        --radius: 12px;
+        --shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+        --nav-height: 64px;
+        --transition: 180ms ease;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: radial-gradient(circle at 20% 20%, #11172a, #0b0d14 55%),
+          var(--bg);
+        color: var(--text);
+        font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+        display: flex;
+        flex-direction: column;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(15, 17, 22, 0.9);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border);
+        height: var(--nav-height);
+        display: flex;
+        align-items: center;
+        padding: 0 18px;
+      }
+
+      .brand {
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        font-size: 15px;
+      }
+
+      main {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 32px 16px 48px;
+      }
+
+      .card {
+        width: min(960px, 100%);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 20px;
+      }
+
+      .card h1 {
+        margin: 0 0 12px;
+        font-size: 22px;
+        font-weight: 700;
+      }
+
+      .subtext {
+        margin: 0 0 20px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .tab {
+        flex: 1;
+        background: #111523;
+        color: var(--text);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px 10px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        cursor: pointer;
+        transition: transform var(--transition), border-color var(--transition),
+          box-shadow var(--transition), background var(--transition);
+      }
+
+      .tab:hover {
+        border-color: var(--accent);
+        transform: translateY(-1px);
+      }
+
+      .tab:focus-visible {
+        outline: 2px solid var(--accent-strong);
+        outline-offset: 2px;
+      }
+
+      .tab.active {
+        background: linear-gradient(120deg, #0f1b31, #11233d);
+        border-color: var(--accent-strong);
+        box-shadow: 0 8px 24px rgba(56, 189, 248, 0.2);
+      }
+
+      .panel {
+        display: none;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 16px;
+        background: #0f1323;
+      }
+
+      .panel.active {
+        display: block;
+      }
+
+      .embed {
+        margin-top: 14px;
+        display: grid;
+        place-items: center;
+      }
+
+      .embed-frame {
+        width: min(360px, 100%);
+        height: 380px;
+        border: none;
+        border-radius: 18px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+        background: #0f1323;
+      }
+
+      .panel h2 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+
+      .panel p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      @media (max-width: 640px) {
+        header {
+          height: auto;
+          padding: 14px 16px;
+        }
+
+        main {
+          padding: 20px 12px 32px;
+        }
+
+        .tabs {
+          flex-direction: column;
+        }
+
+        .tab {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="brand">Ripe</div>
+    </header>
+
+    <main>
+      <section class="card" aria-label="Ripe Stablecoin Widget">
+        <h1>Stablecoin to Fiat Mobile Widget</h1>
+        <p class="subtext">
+          The widget is available in three sizes: small, medium, and large.
+        </p>
+
+        <div class="tabs" role="tablist" aria-label="Widget size tabs">
+          <button class="tab active" data-tab="small" role="tab" aria-selected="true">
+            Small
+          </button>
+          <button class="tab" data-tab="medium" role="tab" aria-selected="false">
+            Medium
+          </button>
+          <button class="tab" data-tab="large" role="tab" aria-selected="false">
+            Large
+          </button>
+        </div>
+
+        <div class="panel active" data-panel="small" role="tabpanel">
+          <div class="embed">
+            <iframe
+              title="Small widget preview"
+              src="small-widget.html"
+              loading="lazy"
+              class="embed-frame"
+            ></iframe>
+          </div>
+        </div>
+
+        <div class="panel" data-panel="medium" role="tabpanel">
+          <h2>Medium Widget</h2>
+          <p>
+            Balanced layout suited for most embeds. Shows rates, quick actions,
+            and a concise summary without overwhelming the user.
+          </p>
+        </div>
+
+        <div class="panel" data-panel="large" role="tabpanel">
+          <h2>Large Widget</h2>
+          <p>
+            Spacious view for dashboards. Room for detailed breakdowns, charts,
+            and extended settings while staying readable in dark mode.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      (() => {
+        const tabs = document.querySelectorAll(".tab");
+        const panels = document.querySelectorAll(".panel");
+
+        const setActive = (key) => {
+          tabs.forEach((tab) => {
+            const isActive = tab.dataset.tab === key;
+            tab.classList.toggle("active", isActive);
+            tab.setAttribute("aria-selected", String(isActive));
+            tab.setAttribute("tabindex", isActive ? "0" : "-1");
+          });
+
+          panels.forEach((panel) => {
+            panel.classList.toggle("active", panel.dataset.panel === key);
+            panel.hidden = panel.dataset.panel !== key;
+          });
+        };
+
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", () => setActive(tab.dataset.tab));
+          tab.addEventListener("keydown", (evt) => {
+            if (evt.key === "Enter" || evt.key === " ") {
+              evt.preventDefault();
+              setActive(tab.dataset.tab);
+            }
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

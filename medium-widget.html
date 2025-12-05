@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ripe Medium Widget</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f8f7f4;
+        --card: #ffffff;
+        --border: #f1e6c8;
+        --accent: #f2c03a;
+        --accent-hover: #f0b119;
+        --text: #1f1f1f;
+        --muted: #6b6b6b;
+        --shadow: 0 18px 60px rgba(0, 0, 0, 0.06);
+        --radius-xl: 24px;
+        --radius: 14px;
+        --gap: 16px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent; /* Let iframe bg show or body bg */
+        font-family: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+        color: var(--text);
+        padding: 0;
+        overflow: hidden; /* Prevent scrollbars in iframe */
+      }
+
+      .widget {
+        width: 700px;
+        height: 350px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow);
+        padding: 24px;
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Two equal columns */
+        gap: 24px;
+        overflow: hidden;
+      }
+
+      /* --- Column 1: Inputs --- */
+      .col-input {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+        font-size: 20px;
+        color: var(--text);
+        margin-bottom: 4px;
+      }
+
+      .brand img {
+        width: 32px;
+        height: auto;
+      }
+
+      .tile {
+        background: #fffbf2;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+
+      .amount-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .input-field {
+        width: 100%;
+        text-align: right;
+        border: none;
+        background: transparent;
+        font-family: "Poppins", sans-serif;
+        font-weight: 700;
+        font-size: 22px;
+        color: var(--text);
+        outline: none;
+        padding: 0;
+      }
+
+      .input-field::placeholder {
+        color: #ccc;
+      }
+
+      .suffix {
+        font-weight: 700;
+        font-size: 16px;
+        color: var(--text);
+      }
+
+      /* Custom Select */
+      .select {
+        position: relative;
+        min-width: 110px;
+      }
+
+      .select-trigger {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 6px 10px;
+        cursor: pointer;
+        font-family: inherit;
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--text);
+        transition: border-color 0.2s;
+      }
+
+      .select-trigger:hover {
+        border-color: #e0d0a0;
+      }
+
+      .select-icon {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .select-caret {
+        margin-left: auto;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 5px solid var(--muted);
+        opacity: 0.7;
+      }
+
+      .select-options {
+        position: absolute;
+        z-index: 10;
+        top: calc(100% + 4px);
+        left: 0;
+        right: 0;
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        list-style: none;
+        margin: 0;
+        padding: 4px;
+        display: none;
+      }
+
+      .select.open .select-options {
+        display: block;
+      }
+
+      .select-option {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .select-option:hover {
+        background: #fff8e0;
+      }
+
+      .pills {
+        display: flex;
+        gap: 8px;
+        margin-top: 4px;
+      }
+
+      .pill {
+        flex: 1;
+        border: 1px solid #f0e0b0;
+        background: #fff;
+        border-radius: 8px;
+        padding: 6px;
+        font-family: inherit;
+        font-weight: 600;
+        font-size: 12px;
+        color: var(--text);
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+
+      .pill:hover {
+        background: #fff8e0;
+        border-color: var(--accent);
+      }
+
+      /* --- Column 2: Output/Summary --- */
+      .col-output {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+      }
+
+      .summary-box {
+        background: #fffaf0;
+        border: 1px dashed var(--border);
+        border-radius: var(--radius);
+        padding: 16px;
+        margin-bottom: 12px;
+      }
+
+      .summary-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 4px;
+      }
+
+      .summary-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+
+      .transparent-badge {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        background: #e8f5e9;
+        color: #1a8f2f;
+        padding: 4px 8px;
+        border-radius: 100px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .big-amount {
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--text);
+        margin: 4px 0;
+      }
+
+      .breakdown {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 0 4px;
+        margin-bottom: 12px;
+      }
+
+      .line-item {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        color: var(--muted);
+        font-weight: 500;
+      }
+
+      .line-item.total {
+        margin-top: auto;
+        padding-top: 8px;
+        border-top: 1px solid #f0f0f0;
+        color: var(--text);
+        font-weight: 700;
+        font-size: 14px;
+      }
+
+      .val-negative { color: #d32f2f; }
+      .val-positive { color: #2e7d32; }
+
+      .cta {
+        width: 100%;
+        background: var(--accent);
+        border: none;
+        padding: 14px;
+        border-radius: 12px;
+        font-family: inherit;
+        font-weight: 700;
+        font-size: 15px;
+        color: #000;
+        cursor: pointer;
+        transition: transform 0.1s, background 0.1s;
+        box-shadow: 0 4px 12px rgba(242, 192, 58, 0.2);
+      }
+
+      .cta:hover {
+        background: var(--accent-hover);
+        transform: translateY(-1px);
+      }
+
+      .cta:active {
+        transform: translateY(0);
+      }
+
+      /* Responsive fallback for very small screens (if embedded in mobile view) */
+      @media (max-width: 600px) {
+        .widget {
+          height: auto;
+          grid-template-columns: 1fr;
+          width: 100%;
+          padding: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="widget">
+      <!-- Left Column: Inputs -->
+      <div class="col-input">
+        <div class="brand">
+          <img src="assets/ripe-logo.png" alt="Ripe Logo" />
+          <span>Ripe</span>
+        </div>
+        
+        <div class="tile">
+          <div class="row">
+            <span class="label">You Send</span>
+            <div class="select" data-select="coin">
+              <button class="select-trigger">
+                <img class="select-icon" src="assets/coin/usdc.png" alt="USDC"/>
+                <span class="select-label">USDC</span>
+                <div class="select-caret"></div>
+              </button>
+              <ul class="select-options">
+                <li class="select-option" data-value="USDC" data-icon="assets/coin/usdc.png">
+                  <img class="select-icon" src="assets/coin/usdc.png" alt="USDC"/>
+                  <span>USDC</span>
+                </li>
+                <li class="select-option" data-value="USDT" data-icon="assets/coin/usdt.png">
+                  <img class="select-icon" src="assets/coin/usdt.png" alt="USDT"/>
+                  <span>USDT</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="amount-row">
+            <input 
+              type="text" 
+              class="input-field" 
+              data-bind="coin-value" 
+              value="1000" 
+              placeholder="0"
+            />
+            <span class="suffix" data-bind="coin-suffix">USDC</span>
+          </div>
+
+          <div class="pills">
+            <button class="pill" data-amount="100">100</button>
+            <button class="pill" data-amount="500">500</button>
+            <button class="pill" data-amount="1000">1k</button>
+            <button class="pill" data-amount="5000">5k</button>
+          </div>
+        </div>
+
+        <div class="row" style="padding: 0 4px;">
+          <span class="label" style="color: var(--text)">Recipient Currency</span>
+          <div class="select" data-select="fiat" style="min-width: 140px;">
+            <button class="select-trigger">
+              <img class="select-icon" src="assets/fiat/php.png" alt="PHP"/>
+              <span class="select-label">PHP</span>
+              <div class="select-caret"></div>
+            </button>
+            <ul class="select-options">
+              <li class="select-option" data-value="PHP" data-icon="assets/fiat/php.png" data-symbol="₱">
+                <img class="select-icon" src="assets/fiat/php.png" alt="PHP"/>
+                <span>PHP</span>
+              </li>
+              <li class="select-option" data-value="USD" data-icon="assets/fiat/usd.png" data-symbol="$">
+                <img class="select-icon" src="assets/fiat/usd.png" alt="USD"/>
+                <span>USD</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Summary & Breakdown -->
+      <div class="col-output">
+        <div class="summary-box">
+          <div class="summary-header">
+            <span class="summary-title">Recipient Gets</span>
+            <div class="transparent-badge">
+              <span style="font-size: 14px;">✓</span> No Hidden Fees
+            </div>
+          </div>
+          <div class="big-amount" data-bind="net-fiat">₱58,205.00</div>
+        </div>
+
+        <div class="breakdown">
+          <div class="line-item">
+            <span>Gross Amount</span>
+            <span data-bind="gross">₱58,500.00</span>
+          </div>
+          <div class="line-item">
+            <span>Ripe Fee (0.5%)</span>
+            <span class="val-negative" data-bind="ripe-fee">- ₱292.50</span>
+          </div>
+          <div class="line-item">
+            <span>Network Fee</span>
+            <span class="val-negative" data-bind="network-fee">- ₱2.50</span>
+          </div>
+           <div class="line-item">
+            <span>FX Spread</span>
+            <span data-bind="fx-spread">0.25%</span>
+          </div>
+          <div class="line-item total">
+            <span>Total Net Received</span>
+            <span class="val-positive" data-bind="net">₱58,205.00</span>
+          </div>
+        </div>
+
+        <button class="cta">Send Money Now</button>
+      </div>
+    </div>
+
+    <script src="fx-calculator.js"></script>
+    <script src="medium-widget.js"></script>
+  </body>
+</html>

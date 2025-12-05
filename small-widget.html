@@ -14,301 +14,117 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=swap_horiz"
     />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              poppins: ['Poppins', 'system-ui', '-apple-system', 'sans-serif'],
+            },
+            colors: {
+              brand: '#f2c03a',
+              'card-border': '#FFC527',
+              'card-bg': '#ffffff',
+              text: '#1f1f1f',
+              muted: '#5b5b5b',
+              accent: '#f2c03a',
+              'tile-bg': '#FFF6DC',
+              'dropdown-bg': '#FFF6DC',
+              'option-hover': '#fff3d6',
+            },
+            borderRadius: {
+              'widget': '22px',
+              'tile': '12px',
+            },
+            boxShadow: {
+              'widget': '0 10px 50px rgba(0, 0, 0, 0.08)',
+              'dropdown': '0 10px 30px rgba(0, 0, 0, 0.12)',
+              'cta': '0 10px 30px rgba(242, 192, 58, 0.35)',
+              'cta-hover': '0 12px 36px rgba(242, 192, 58, 0.45)',
+            },
+          },
+        },
+      }
+    </script>
     <style>
-      :root {
-        --card-bg: #ffffff;
-        --card-border: #f2d386;
-        --brand: #f2c03a;
-        --text: #1f1f1f;
-        --muted: #5b5b5b;
-        --accent: #f2c03a;
-        --radius-xl: 22px;
-        --radius: 12px;
-        --shadow: 0 10px 50px rgba(0, 0, 0, 0.08);
-        --gap: 12px;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        background: #f7f7f8;
-        font-family: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
-        color: var(--text);
-        padding: 24px;
-      }
-
-      .widget {
-        width: 320px;
-        background: var(--card-bg);
-        border-radius: var(--radius-xl);
-        box-shadow: var(--shadow);
-        padding: 18px 16px 20px;
-        border: 1px solid #f5e7bd;
-        display: grid;
-        gap: var(--gap);
-      }
-
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-weight: 700;
-        font-size: 20px;
-        color: var(--brand);
-      }
-
-      .brand img {
-        height: 36px;
-        width: auto;
-        display: block;
-      }
-
-      .tile {
-        display: flex;
-        align-items: center;
-        padding: 14px 14px;
-        border-radius: var(--radius);
-        border: 2px solid var(--card-border);
-        background: #fffbf2;
-        gap: 12px;
-      }
-
-      .select {
-        position: relative;
-      }
-
-      .select-trigger {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: transparent;
-        border: none;
-        padding: 0;
-        cursor: pointer;
-        font-weight: 600;
-        color: var(--text);
-      }
-
-      .select-icon {
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        object-fit: cover;
-        background: #eef2f5;
-      }
-
-      .select-label {
-        font-weight: 600;
-        font-size: 15px;
-      }
-
-      .select-caret {
-        margin-left: 2px;
-        width: 0;
-        height: 0;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 6px solid var(--muted);
-        opacity: 0.6;
-      }
-
+      /* Minimal custom styles for dropdown state & material icons */
       .select-options {
-        position: absolute;
-        z-index: 5;
-        left: 0;
-        top: calc(100% + 8px);
-        min-width: 120px;
-        margin: 0;
-        padding: 6px;
-        list-style: none;
-        background: #fffaf0;
-        border: 2px solid var(--card-border);
-        border-radius: 10px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
         display: none;
       }
-
       .select.open .select-options {
         display: block;
       }
-
-      .select-option {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 6px;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background 120ms ease;
-      }
-
-      .select-option:hover {
-        background: #fff3d6;
-      }
-
-      .select-option .select-icon {
-        width: 24px;
-        height: 24px;
-      }
-
-      .select-option .select-label {
-        font-weight: 600;
-        font-size: 14px;
-      }
-
-      .input-wrapper {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 6px;
-        min-width: 0;
-      }
-
-      .input-field {
-        flex: 1;
-        text-align: right;
-        font-family: "Poppins", sans-serif;
-        font-weight: 600;
-        font-size: 14px;
-        color: var(--text);
-        background: transparent;
-        border: none;
-        outline: none;
-        min-width: 0;
-        max-width: 100px;
-      }
-
-      .input-field::placeholder {
-        color: var(--muted);
-        opacity: 0.7;
-      }
-
-      .input-field:focus {
-        outline: none;
-      }
-
-      .currency-suffix {
-        font-family: "Poppins", sans-serif;
-        font-weight: 600;
-        font-size: 14px;
-        color: var(--text);
-        white-space: nowrap;
-      }
-
-      .swap {
-        display: grid;
-        place-items: center;
-        padding: 6px 0;
-        color: #FFC527;
-        font-size: 18px;
-        cursor: pointer;
-      }
-      
-      .swap .material-symbols-outlined {
-        transition: none;
-        animation: none;
-      }
-
-      .cta {
-        margin-top: 4px;
-        background: var(--accent);
-        color: #1f1f1f;
-        border: none;
-        border-radius: 18px;
-        padding: 14px;
-        font-family: "Poppins", sans-serif;
-        font-weight: 700;
-        font-size: 15px;
-        cursor: pointer;
-        box-shadow: 0 10px 30px rgba(242, 192, 58, 0.35);
-        transition: transform 160ms ease, box-shadow 160ms ease;
-      }
-
-      .cta:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 12px 36px rgba(242, 192, 58, 0.45);
-      }
-
-      .cta:active {
-        transform: translateY(0);
-      }
-
-      .cta .arrow {
-        margin-left: 6px;
-        font-weight: 900;
-      }
-
       .material-symbols-outlined {
-        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
       }
     </style>
   </head>
-  <body>
-    <div class="widget" aria-label="Ripe small widget boilerplate">
-      <div class="brand">
-        <img src="assets/ripe-logo.png" alt="Ripe" />
+  <body class="m-0 min-h-screen grid place-items-center bg-[#f7f7f8] font-poppins text-text p-6">
+    <div class="widget w-80 bg-card-bg rounded-widget shadow-widget p-[18px_16px_20px] border border-[#f5e7bd] grid gap-3" aria-label="Ripe small widget boilerplate">
+      
+      <!-- Brand Header -->
+      <div class="flex items-center gap-3 font-bold text-xl text-brand">
+        <img src="assets/ripe-logo.png" alt="Ripe" class="h-9 w-auto block" />
       </div>
 
-      <div class="tile">
-        <div class="select" data-select="coin">
-          <button class="select-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
-            <img class="select-icon" src="assets/coin/usdc.png" alt="USDC" />
-            <span class="select-label">USDC</span>
-            <span class="select-caret" aria-hidden="true"></span>
+      <!-- Coin Tile -->
+      <div class="tile flex items-center p-3.5 rounded-tile border-2 border-card-border bg-tile-bg gap-3">
+        <div class="select relative" data-select="coin">
+          <button class="select-trigger flex items-center gap-2 bg-transparent border-none p-0 cursor-pointer font-semibold text-text" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <img class="select-icon w-7 h-7 rounded-full object-cover bg-[#eef2f5]" src="assets/coin/usdc.png" alt="USDC" />
+            <span class="select-label font-semibold text-[15px]">USDC</span>
+            <span class="select-caret ml-0.5 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[6px] border-t-muted opacity-60" aria-hidden="true"></span>
           </button>
-          <ul class="select-options" role="listbox">
-            <li class="select-option" role="option" data-value="USDC" data-icon="assets/coin/usdc.png">
-              <img class="select-icon" src="assets/coin/usdc.png" alt="USDC" />
-              <span class="select-label">USDC</span>
+          <ul class="select-options absolute z-10 left-0 top-[calc(100%+8px)] min-w-[120px] m-0 p-1.5 list-none bg-dropdown-bg border-2 border-card-border rounded-[10px] shadow-dropdown" role="listbox">
+            <li class="select-option flex items-center gap-2 py-2 px-1.5 rounded-lg cursor-pointer transition-colors duration-[120ms] hover:bg-option-hover" role="option" data-value="USDC" data-icon="assets/coin/usdc.png">
+              <img class="select-icon w-6 h-6 rounded-full object-cover bg-[#eef2f5]" src="assets/coin/usdc.png" alt="USDC" />
+              <span class="select-label font-semibold text-sm">USDC</span>
             </li>
-            <li class="select-option" role="option" data-value="USDT" data-icon="assets/coin/usdt.png">
-              <img class="select-icon" src="assets/coin/usdt.png" alt="USDT" />
-              <span class="select-label">USDT</span>
+            <li class="select-option flex items-center gap-2 py-2 px-1.5 rounded-lg cursor-pointer transition-colors duration-[120ms] hover:bg-option-hover" role="option" data-value="USDT" data-icon="assets/coin/usdt.png">
+              <img class="select-icon w-6 h-6 rounded-full object-cover bg-[#eef2f5]" src="assets/coin/usdt.png" alt="USDT" />
+              <span class="select-label font-semibold text-sm">USDT</span>
             </li>
           </ul>
         </div>
-        <div class="input-wrapper">
-          <input type="text" class="input-field" data-bind="coin-value" value="0" placeholder="0" inputmode="decimal" />
-          <span class="currency-suffix" data-bind="coin-suffix">USDC</span>
+        <div class="input-wrapper flex-1 flex items-center justify-end gap-1.5 min-w-0">
+          <input type="text" class="input-field flex-1 text-right font-poppins font-semibold text-base text-text bg-transparent border-none outline-none min-w-0 max-w-[100px] placeholder:text-muted placeholder:opacity-70" data-bind="coin-value" value="" placeholder="0" inputmode="decimal" />
+          <span class="currency-suffix font-poppins font-semibold text-base text-text whitespace-nowrap" data-bind="coin-suffix">USDC</span>
         </div>
       </div>
 
-      <div class="swap">
+      <!-- Swap Button -->
+      <div class="swap grid place-items-center py-1.5 text-[#FFC527] text-lg cursor-pointer">
         <span class="material-symbols-outlined">swap_horiz</span>
       </div>
 
-      <div class="tile">
-        <div class="select" data-select="fiat">
-          <button class="select-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
-            <img class="select-icon" src="assets/fiat/usd.png" alt="USD" />
-            <span class="select-label">USD</span>
-            <span class="select-caret" aria-hidden="true"></span>
+      <!-- Fiat Tile -->
+      <div class="tile flex items-center p-3.5 rounded-tile border-2 border-card-border bg-tile-bg gap-3">
+        <div class="select relative" data-select="fiat">
+          <button class="select-trigger flex items-center gap-2 bg-transparent border-none p-0 cursor-pointer font-semibold text-text" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <img class="select-icon w-7 h-7 rounded-full object-cover bg-[#eef2f5]" src="assets/fiat/usd.png" alt="USD" />
+            <span class="select-label font-semibold text-[15px]">USD</span>
+            <span class="select-caret ml-0.5 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[6px] border-t-muted opacity-60" aria-hidden="true"></span>
           </button>
-          <ul class="select-options" role="listbox">
-            <li class="select-option" role="option" data-value="USD" data-symbol="$" data-icon="assets/fiat/usd.png">
-              <img class="select-icon" src="assets/fiat/usd.png" alt="USD" />
-              <span class="select-label">USD</span>
+          <ul class="select-options absolute z-10 left-0 top-[calc(100%+8px)] min-w-[120px] m-0 p-1.5 list-none bg-dropdown-bg border-2 border-card-border rounded-[10px] shadow-dropdown" role="listbox">
+            <li class="select-option flex items-center gap-2 py-2 px-1.5 rounded-lg cursor-pointer transition-colors duration-[120ms] hover:bg-option-hover" role="option" data-value="USD" data-symbol="$" data-icon="assets/fiat/usd.png">
+              <img class="select-icon w-6 h-6 rounded-full object-cover bg-[#eef2f5]" src="assets/fiat/usd.png" alt="USD" />
+              <span class="select-label font-semibold text-sm">USD</span>
             </li>
-            <li class="select-option" role="option" data-value="PHP" data-symbol="₱" data-icon="assets/fiat/php.png">
-              <img class="select-icon" src="assets/fiat/php.png" alt="PHP" />
-              <span class="select-label">PHP</span>
+            <li class="select-option flex items-center gap-2 py-2 px-1.5 rounded-lg cursor-pointer transition-colors duration-[120ms] hover:bg-option-hover" role="option" data-value="PHP" data-symbol="₱" data-icon="assets/fiat/php.png">
+              <img class="select-icon w-6 h-6 rounded-full object-cover bg-[#eef2f5]" src="assets/fiat/php.png" alt="PHP" />
+              <span class="select-label font-semibold text-sm">PHP</span>
             </li>
           </ul>
         </div>
-        <div class="input-wrapper">
-          <input type="text" class="input-field" data-bind="fiat-value" value="≈ $0.00" placeholder="0" readonly />
-          <span class="currency-suffix" data-bind="fiat-suffix">USD</span>
+        <div class="input-wrapper flex-1 flex items-center justify-end gap-1.5 min-w-0">
+          <input type="text" class="input-field flex-1 text-right font-poppins font-semibold text-base text-text bg-transparent border-none outline-none min-w-0 max-w-[100px] placeholder:text-muted placeholder:opacity-70" data-bind="fiat-value" value="" placeholder="0" readonly />
+          <span class="currency-suffix font-poppins font-semibold text-base text-text whitespace-nowrap" data-bind="fiat-suffix">USD</span>
         </div>
       </div>
 
-      <button class="cta">
+      <!-- CTA Button -->
+      <button class="cta mt-1 bg-accent text-text border-none rounded-[18px] py-3.5 px-3.5 font-poppins font-bold text-[15px] cursor-pointer shadow-cta transition-all duration-[160ms] hover:-translate-y-px hover:shadow-cta-hover active:translate-y-0">
         Convert Now
       </button>
     </div>
@@ -317,4 +133,3 @@
     <script src="small-widget.js" defer></script>
   </body>
 </html>
-

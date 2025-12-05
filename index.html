@@ -9,8 +9,8 @@
         --bg: #0f1116;
         --surface: #161924;
         --border: #23283a;
-        --accent: #7dd3fc;
-        --accent-strong: #38bdf8;
+        --accent: #FFC527;
+        --accent-strong: #FFC527;
         --text: #e7e9f0;
         --muted: #9aa1b5;
         --radius: 12px;
@@ -51,6 +51,12 @@
         font-weight: 700;
         letter-spacing: 0.01em;
         font-size: 15px;
+      }
+
+      .brand img {
+        height: 36px;
+        width: auto;
+        display: block;
       }
 
       main {
@@ -178,14 +184,16 @@
   </head>
   <body>
     <header>
-      <div class="brand">Ripe</div>
+      <div class="brand">
+        <img src="assets/ripe-logo-dark.png" alt="Ripe" />
+      </div>
     </header>
 
     <main>
       <section class="card" aria-label="Ripe Stablecoin Widget">
         <h1>Stablecoin to Fiat Mobile Widget</h1>
         <p class="subtext">
-          The widget is available in three sizes: small, medium, and large.
+          The widget is available in three sizes: Small, Medium, and Large.
         </p>
 
         <div class="tabs" role="tablist" aria-label="Widget size tabs">

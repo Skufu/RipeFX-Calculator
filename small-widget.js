@@ -23,6 +23,9 @@
   const coinSelect = document.querySelector('[data-select="coin"]');
   const fiatSelect = document.querySelector('[data-select="fiat"]');
 
+  // Constants
+  const MAX_AMOUNT = 100000;
+
   // State
   let selectedCoin = "USDC";
   let selectedFiat = "USD";
@@ -78,7 +81,13 @@
 
     // Validate and sanitize input
     const rawValue = sourceInput.value;
-    const cleanValue = FXCalculator.validateInput(rawValue);
+    let cleanValue = FXCalculator.validateInput(rawValue);
+
+    // Enforce max amount limit
+    const numericValue = parseFloat(cleanValue);
+    if (!isNaN(numericValue) && numericValue > MAX_AMOUNT) {
+      cleanValue = String(MAX_AMOUNT);
+    }
 
     // Only update input if it changed (avoid cursor jump)
     if (rawValue !== cleanValue) {
@@ -134,8 +143,8 @@
       fiatInput.readOnly = true;
       fiatInput.setAttribute("readonly", "");
 
-      // Reset to 0
-      coinInput.value = "0";
+      // Reset to empty
+      coinInput.value = "";
       coinSuffix.textContent = selectedCoin;
 
       // Update tile styles
@@ -148,8 +157,8 @@
       coinInput.readOnly = true;
       coinInput.setAttribute("readonly", "");
 
-      // Reset to 0
-      fiatInput.value = "0";
+      // Reset to empty
+      fiatInput.value = "";
       fiatSuffix.textContent = selectedFiat;
 
       // Update tile styles
@@ -205,7 +214,14 @@
       if (input.readOnly) return;
       evt.preventDefault();
       const pastedText = evt.clipboardData.getData("text");
-      const cleaned = FXCalculator.validateInput(pastedText);
+      let cleaned = FXCalculator.validateInput(pastedText);
+
+      // Enforce max amount limit on paste
+      const numericValue = parseFloat(cleaned);
+      if (!isNaN(numericValue) && numericValue > MAX_AMOUNT) {
+        cleaned = String(MAX_AMOUNT);
+      }
+
       input.value = cleaned;
       updateConversion();
     });
@@ -274,7 +290,7 @@
 
   // Initialize
   fiatTile.classList.add("output-tile");
-  coinInput.value = "0";
+  coinInput.value = "";
   coinSuffix.textContent = selectedCoin;
   updateConversion();
 })();
